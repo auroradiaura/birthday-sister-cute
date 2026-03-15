@@ -4,165 +4,200 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Sister</title>
+
 <style>
-  body, html {
-    margin: 0;
-    padding: 0;
-    background: pink;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow-x: hidden;
-    height: 100%;
-  }
 
-  .center {
-    text-align: center;
-    position: relative;
-    z-index: 2;
-    padding-top: 50px;
-  }
+body{
+margin:0;
+padding:0;
+background:pink;
+font-family:Arial, Helvetica, sans-serif;
+overflow-x:hidden;
+text-align:center;
+}
 
-  .countdown, .big-countdown, .message {
-    font-weight: bold;
-    font-size: 2rem;
-    color: #fff;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
-    margin: 20px 0;
-    opacity: 0;
-  }
+.container{
+padding-top:80px;
+position:relative;
+z-index:2;
+}
 
-  .big-countdown span {
-    display: inline-block;
-    font-size: 3rem;
-    margin: 0 5px;
-  }
+/* Countdown numbers */
 
-  .sister {
-    font-size: 3rem;
-    color: #ff0066;
-    margin-top: 20px;
-    opacity: 0;
-    transition: opacity 1s ease-in;
-  }
+.count{
+font-size:70px;
+font-weight:bold;
+color:white;
+opacity:0;
+transition:opacity .5s;
+}
 
-  .typing-message {
-    font-size: 1.2rem;
-    max-width: 90%;
-    margin: 20px auto;
-    color: #fff;
-    white-space: pre-wrap;
-    font-weight: 500;
-  }
+/* Big words */
 
-  /* Rose animation */
-  .rose-container {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 50%;
-    pointer-events: none;
-    overflow: hidden;
-  }
+.bigwords{
+font-size:45px;
+color:white;
+font-weight:bold;
+margin-top:20px;
+opacity:0;
+}
 
-  .rose {
-    position: absolute;
-    bottom: -50px;
-    width: 40px;
-    height: 40px;
-    background: red;
-    border-radius: 50%;
-    animation: grow 2s forwards;
-  }
+/* Title */
 
-  @keyframes grow {
-    0% { transform: translateY(100%) scale(0); opacity:0; }
-    50% { transform: translateY(0) scale(0.5); opacity:0.7; }
-    100% { transform: translateY(0) scale(1); opacity:1; }
-  }
+.title{
+font-size:40px;
+color:#d1004b;
+margin-top:25px;
+opacity:0;
+}
 
-  /* Confetti */
-  .confetti {
-    position: fixed;
-    top: 0;
-    width: 10px;
-    height: 10px;
-    background: yellow;
-    opacity: 0.8;
-    z-index: 3;
-    pointer-events: none;
-    animation: fall linear forwards;
-  }
+/* Typing message */
 
-  @keyframes fall {
-    to { transform: translateY(100vh) rotate(360deg); }
-  }
+.message{
+margin:30px auto;
+max-width:85%;
+font-size:18px;
+color:white;
+line-height:1.6;
+min-height:120px;
+}
 
-  @media (max-width: 600px) {
-    .big-countdown span { font-size: 2rem; }
-    .sister { font-size: 2rem; }
-    .message { font-size: 1rem; }
-  }
+/* Roses */
+
+.rose-area{
+position:fixed;
+bottom:0;
+width:100%;
+height:220px;
+pointer-events:none;
+}
+
+.rose{
+position:absolute;
+bottom:-60px;
+font-size:35px;
+animation:grow 3s forwards;
+}
+
+@keyframes grow{
+0%{transform:translateY(120px) scale(0);opacity:0;}
+70%{opacity:1;}
+100%{transform:translateY(0) scale(1);}
+}
+
+/* Confetti */
+
+.confetti{
+position:fixed;
+top:-10px;
+width:10px;
+height:10px;
+animation:fall linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(110vh) rotate(360deg);
+}
+}
+
+/* Mobile */
+
+@media(max-width:600px){
+
+.count{font-size:50px}
+
+.bigwords{font-size:32px}
+
+.title{font-size:28px}
+
+.message{font-size:16px}
+
+}
+
 </style>
 </head>
+
 <body>
 
-<div class="center">
-  <div class="countdown">3</div>
-  <div class="countdown">2</div>
-  <div class="countdown">1</div>
+<div class="container">
 
-  <div class="big-countdown">
-    <span>Happy</span>
-    <span>Birthday</span>
-    <span>to</span>
-    <span>You</span>
-  </div>
+<div id="c1" class="count">1</div>
+<div id="c2" class="count">2</div>
+<div id="c3" class="count">3</div>
 
-  <div class="sister">Happy Birthday Sister</div>
-
-  <div class="typing-message" id="typing"></div>
+<div id="big" class="bigwords">
+Happy Birthday To You
 </div>
 
-<div class="rose-container" id="roses"></div>
+<div id="title" class="title">
+Happy Birthday Sister
+</div>
+
+<div id="message" class="message"></div>
+
+</div>
+
+<div class="rose-area" id="roses"></div>
 
 <script>
-  // Countdown sequence
-  const countdownElements = document.querySelectorAll('.countdown');
-  const bigCountdown = document.querySelector('.big-countdown');
-  const sisterText = document.querySelector('.sister');
-  let delay = 0;
 
-  countdownElements.forEach((el, i) => {
-    setTimeout(() => {
-      el.style.opacity = 1;
-      setTimeout(() => el.style.opacity = 0, 800);
-    }, i * 1000);
-    delay = i * 1000 + 1000;
-  });
+/* Countdown */
 
-  setTimeout(() => {
-    bigCountdown.style.opacity = 1;
-  }, delay);
+function show(id){
+document.getElementById(id).style.opacity=1
+}
 
-  setTimeout(() => {
-    sisterText.style.opacity = 1;
-    startRoses();
-    startTyping();
-  }, delay + 2000);
+function hide(id){
+document.getElementById(id).style.opacity=0
+}
 
-  // Roses grow animation
-  function startRoses() {
-    const roseContainer = document.getElementById('roses');
-    for(let i=0; i<20; i++) {
-      const rose = document.createElement('div');
-      rose.classList.add('rose');
-      rose.style.left = Math.random() * 90 + '%';
-      rose.style.animationDelay = (i * 0.2) + 's';
-      roseContainer.appendChild(rose);
-    }
-  }
+setTimeout(()=>{show("c1")},500)
+setTimeout(()=>{hide("c1")},1400)
 
-  // Typing effect
-  const message = `May love and laughter Light your days And warm your heart and home;
-May good and faithful friends be yours Wherever you may roam;
-May peace and plenty bless your world With joy that long endures;
+setTimeout(()=>{show("c2")},1600)
+setTimeout(()=>{hide("c2")},2500)
+
+setTimeout(()=>{show("c3")},2700)
+setTimeout(()=>{hide("c3")},3600)
+
+setTimeout(()=>{
+document.getElementById("big").style.opacity=1
+},3800)
+
+setTimeout(()=>{
+document.getElementById("title").style.opacity=1
+startRoses()
+startTyping()
+startConfetti()
+},5500)
+
+
+/* Roses */
+
+function startRoses(){
+
+let area=document.getElementById("roses")
+
+for(let i=0;i<25;i++){
+
+let r=document.createElement("div")
+r.className="rose"
+r.innerHTML="🌹"
+
+r.style.left=Math.random()*100+"%"
+r.style.animationDelay=Math.random()*2+"s"
+
+area.appendChild(r)
+
+}
+
+}
+
+
+/* Typing Message */
+
+let text=`May love and laughter light your days and warm your heart and home;
+May good and faithful friends be yours wherever you may roam;
+May peace and plenty bless your world with joy that long endures;
 May all life's passing
