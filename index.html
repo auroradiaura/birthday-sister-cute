@@ -1,174 +1,168 @@
-here<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Sister</title>
 <style>
-body{
-  margin:0;
-  background:#ffc0cb; /* soft pink */
-  overflow:hidden;
-  font-family:Arial, sans-serif;
-  text-align:center;
-  color:white;
-}
+  body, html {
+    margin: 0;
+    padding: 0;
+    background: pink;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    height: 100%;
+  }
 
-canvas{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  z-index:1;
-}
+  .center {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    padding-top: 50px;
+  }
 
-#count{
-  position:absolute;
-  top:40%;
-  width:100%;
-  font-size:12vw;
-  font-weight:bold;
-  z-index:2;
-  color:white;
-  text-shadow:0 0 20px #fff, 0 0 40px #ffd1dc;
-}
+  .countdown, .big-countdown, .message {
+    font-weight: bold;
+    font-size: 2rem;
+    color: #fff;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+    margin: 20px 0;
+    opacity: 0;
+  }
 
-#messageContainer{
-  position:absolute;
-  top:12%;
-  width:90%;
-  max-width:500px;
-  left:50%;
-  transform:translateX(-50%);
-  text-align:center;
-  z-index:2;
-  display:none;
-}
+  .big-countdown span {
+    display: inline-block;
+    font-size: 3rem;
+    margin: 0 5px;
+  }
 
-#title{
-  font-size:6vw; 
-  font-weight:bold;
-  color:white;
-  text-shadow:0 0 20px #fff, 0 0 40px #ffd1dc;
-  margin-bottom:20px;
-}
+  .sister {
+    font-size: 3rem;
+    color: #ff0066;
+    margin-top: 20px;
+    opacity: 0;
+    transition: opacity 1s ease-in;
+  }
 
-#typing{
-  font-size:4vw;
-  color:#fff5f5;
-  line-height:1.6;
-  text-align:center;
-  word-wrap:break-word;
-  max-width:100%;
-}
-@media (min-width:600px){
-  #title{font-size:36px;}
-  #typing{font-size:18px;}
-}
+  .typing-message {
+    font-size: 1.2rem;
+    max-width: 90%;
+    margin: 20px auto;
+    color: #fff;
+    white-space: pre-wrap;
+    font-weight: 500;
+  }
+
+  /* Rose animation */
+  .rose-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .rose {
+    position: absolute;
+    bottom: -50px;
+    width: 40px;
+    height: 40px;
+    background: red;
+    border-radius: 50%;
+    animation: grow 2s forwards;
+  }
+
+  @keyframes grow {
+    0% { transform: translateY(100%) scale(0); opacity:0; }
+    50% { transform: translateY(0) scale(0.5); opacity:0.7; }
+    100% { transform: translateY(0) scale(1); opacity:1; }
+  }
+
+  /* Confetti */
+  .confetti {
+    position: fixed;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    background: yellow;
+    opacity: 0.8;
+    z-index: 3;
+    pointer-events: none;
+    animation: fall linear forwards;
+  }
+
+  @keyframes fall {
+    to { transform: translateY(100vh) rotate(360deg); }
+  }
+
+  @media (max-width: 600px) {
+    .big-countdown span { font-size: 2rem; }
+    .sister { font-size: 2rem; }
+    .message { font-size: 1rem; }
+  }
 </style>
 </head>
 <body>
 
-<div id="count">1</div>
+<div class="center">
+  <div class="countdown">3</div>
+  <div class="countdown">2</div>
+  <div class="countdown">1</div>
 
-<div id="messageContainer">
-  <div id="title">Happy Birthday Sister 🎀</div>
-  <span id="typing"></span>
+  <div class="big-countdown">
+    <span>Happy</span>
+    <span>Birthday</span>
+    <span>to</span>
+    <span>You</span>
+  </div>
+
+  <div class="sister">Happy Birthday Sister</div>
+
+  <div class="typing-message" id="typing"></div>
 </div>
 
-<canvas id="canvas"></canvas>
+<div class="rose-container" id="roses"></div>
 
 <script>
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+  // Countdown sequence
+  const countdownElements = document.querySelectorAll('.countdown');
+  const bigCountdown = document.querySelector('.big-countdown');
+  const sisterText = document.querySelector('.sister');
+  let delay = 0;
 
-// Mobile-friendly canvas
-function resizeCanvas(){
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-// ---------------- Countdown ----------------
-let count = 1;
-const countDiv = document.getElementById("count");
-let countdown = setInterval(()=>{
-  count++;
-  if(count > 3){
-    clearInterval(countdown);
-    countDiv.style.display = "none";
-    showBirthday();
-  } else {
-    countDiv.innerText = count;
-  }
-},1000);
-
-// ---------------- Decorations ----------------
-let decorations = [];
-function createDecorations(){
-  decorations=[];
-  for(let i=0;i<180;i++){
-    const rand = Math.random();
-    let type;
-    if(rand < 0.4) type="confetti";
-    else if(rand < 0.6) type="star";
-    else if(rand < 0.8) type="doll";
-    else type="bow";
-    decorations.push({
-      x: Math.random()*canvas.width,
-      y: Math.random()*canvas.height - canvas.height,
-      r: Math.random()*5 + 3,
-      type:type,
-      color: type==="confetti"? `hsl(${Math.random()*360},100%,70%)` : type==="star"? "#fff":"#ff69b4",
-      tilt: Math.random()*10 - 5,
-      angle: Math.random()*2*Math.PI
-    });
-  }
-}
-
-function drawDecorations(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  decorations.forEach(d=>{
-    ctx.save();
-    ctx.translate(d.x,d.y);
-    ctx.rotate(d.angle);
-    if(d.type==="confetti"){
-      ctx.fillStyle=d.color;
-      ctx.fillRect(-d.r/2,-d.r/2,d.r,d.r);
-    } else if(d.type==="star"){
-      ctx.fillStyle=d.color;
-      ctx.shadowColor="#fff";
-      ctx.shadowBlur=10;
-      ctx.beginPath();
-      ctx.arc(0,0,d.r,0,2*Math.PI);
-      ctx.fill();
-    } else if(d.type==="doll"){
-      ctx.font=`${d.r*4}px Arial`;
-      ctx.fillStyle=d.color;
-      ctx.fillText("🧸", -d.r*2, d.r*2);
-    } else if(d.type==="bow"){
-      ctx.font=`${d.r*4}px Arial`;
-      ctx.fillStyle=d.color;
-      ctx.fillText("🎀", -d.r*2, d.r*2);
-    }
-    ctx.restore();
-
-    // movement
-    d.y += 1.5;
-    d.x += Math.sin(d.y*0.02);
-    d.angle += 0.01;
-    if(d.y>canvas.height){d.y=-10; d.x=Math.random()*canvas.width;}
+  countdownElements.forEach((el, i) => {
+    setTimeout(() => {
+      el.style.opacity = 1;
+      setTimeout(() => el.style.opacity = 0, 800);
+    }, i * 1000);
+    delay = i * 1000 + 1000;
   });
-  requestAnimationFrame(drawDecorations);
-}
 
-// ---------------- Typing personal message ----------------
-const text = `May love and laughter light your days
-And warm your heart and home;
-May good and faithful friends be yours
-Wherever you may roam;
-May peace and plenty bless your world
-With joy that long endures;
+  setTimeout(() => {
+    bigCountdown.style.opacity = 1;
+  }, delay);
+
+  setTimeout(() => {
+    sisterText.style.opacity = 1;
+    startRoses();
+    startTyping();
+  }, delay + 2000);
+
+  // Roses grow animation
+  function startRoses() {
+    const roseContainer = document.getElementById('roses');
+    for(let i=0; i<20; i++) {
+      const rose = document.createElement('div');
+      rose.classList.add('rose');
+      rose.style.left = Math.random() * 90 + '%';
+      rose.style.animationDelay = (i * 0.2) + 's';
+      roseContainer.appendChild(rose);
+    }
+  }
+
+  // Typing effect
+  const message = `May love and laughter Light your days And warm your heart and home;
+May good and faithful friends be yours Wherever you may roam;
+May peace and plenty bless your world With joy that long endures;
 May all life's passing
