@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Happy Birthday Cicy! 🌹</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -19,10 +18,10 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* ── THREE.JS CANVAS ── */
-    #three-canvas {
+    /* ── HEART CANVAS (background) ── */
+    #heart-canvas {
       position: fixed;
-      bottom: 0; left: 0;
+      top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: 1;
       pointer-events: none;
@@ -99,20 +98,21 @@
       -webkit-backdrop-filter: blur(16px);
       border: 2px solid rgba(244,143,177,.8);
       border-radius: 28px;
-      padding: clamp(28px, 6vw, 50px) clamp(20px, 6vw, 52px) clamp(28px, 6vw, 46px);
+      padding: clamp(28px,6vw,50px) clamp(20px,6vw,52px) clamp(28px,6vw,46px);
       max-width: 560px; width: 100%;
       text-align: center;
-      box-shadow: 0 8px 60px rgba(214,58,110,.18),
-                  0 2px 20px rgba(0,0,0,.07),
-                  inset 0 1px 0 rgba(255,255,255,.9);
+      box-shadow:
+        0 8px 60px rgba(214,58,110,.18),
+        0 2px 20px rgba(0,0,0,.07),
+        inset 0 1px 0 rgba(255,255,255,.9);
       opacity:0; transform:translateY(44px) scale(.97);
       transition: opacity 1s ease, transform 1s ease;
     }
     .card.visible { opacity:1; transform:translateY(0) scale(1); }
 
     .petals-top {
-      font-size: clamp(1.3rem, 4vw, 1.9rem);
-      letter-spacing: 8px; margin-bottom: 10px; display: block;
+      font-size: clamp(1.3rem,4vw,1.9rem);
+      letter-spacing:8px; margin-bottom:10px; display:block;
       animation: petalSway 4s ease-in-out infinite alternate;
     }
     @keyframes petalSway {
@@ -121,23 +121,23 @@
     }
 
     .hb-word {
-      display: inline-block;
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 600; color: #d63a6e;
+      display:inline-block;
+      font-family:'Cormorant Garamond',serif;
+      font-weight:600; color:#d63a6e;
       opacity:0; transform:translateY(28px);
-      transition: opacity .55s ease, transform .55s ease;
+      transition:opacity .55s ease, transform .55s ease;
     }
     .hb-word.show { opacity:1; transform:translateY(0); }
-    #word-happy, #word-bday { font-size: clamp(1.9rem, 7vw, 3.4rem); }
-    #word-to   { font-size: clamp(1.3rem, 4.5vw, 2.3rem); color:#e91e8c; }
-    #word-you  { font-size: clamp(1.6rem, 6vw, 2.9rem); font-style:italic; }
+    #word-happy, #word-bday { font-size:clamp(1.9rem,7vw,3.4rem); }
+    #word-to   { font-size:clamp(1.3rem,4.5vw,2.3rem); color:#e91e8c; }
+    #word-you  { font-size:clamp(1.6rem,6vw,2.9rem); font-style:italic; }
 
     .name {
-      font-family: 'Cormorant Garamond', serif; font-style:italic;
-      font-size: clamp(1.6rem, 6vw, 2.7rem); color:#c0392b;
-      margin: 4px 0 18px;
+      font-family:'Cormorant Garamond',serif; font-style:italic;
+      font-size:clamp(1.6rem,6vw,2.7rem); color:#c0392b;
+      margin:4px 0 18px;
       opacity:0; transform:translateY(18px);
-      transition: opacity .7s ease, transform .7s ease;
+      transition:opacity .7s ease, transform .7s ease;
     }
     .name.show { opacity:1; transform:translateY(0); }
 
@@ -151,16 +151,16 @@
     .divider span { font-size:1.3rem; }
 
     .message-box {
-      background: rgba(255,255,255,.76);
-      border: 1.5px solid #f8bbd0;
-      border-radius: 18px;
-      padding: clamp(16px,4vw,26px) clamp(16px,4vw,28px);
-      margin-bottom: 22px; text-align:left; min-height:110px;
+      background:rgba(255,255,255,.76);
+      border:1.5px solid #f8bbd0;
+      border-radius:18px;
+      padding:clamp(16px,4vw,26px) clamp(16px,4vw,28px);
+      margin-bottom:22px; text-align:left; min-height:110px;
       opacity:0; transition:opacity .7s ease;
     }
     .message-box.show { opacity:1; }
     #typed-message {
-      font-size: clamp(.875rem, 2.8vw, 1rem);
+      font-size:clamp(.875rem,2.8vw,1rem);
       line-height:1.85; color:#6d1f3e;
       white-space:pre-wrap; font-style:italic;
     }
@@ -174,7 +174,7 @@
 
     .floral-bottom {
       margin-top:22px;
-      font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+      font-size:clamp(1.1rem,3.5vw,1.5rem);
       letter-spacing:6px; opacity:0; transition:opacity .7s ease;
     }
     .floral-bottom.show { opacity:1; }
@@ -200,7 +200,7 @@
 </div>
 
 <canvas id="confetti-canvas"></canvas>
-<canvas id="three-canvas"></canvas>
+<canvas id="heart-canvas"></canvas>
 
 <div id="page">
   <div class="card" id="mainCard">
@@ -226,19 +226,19 @@
 
 <script>
 /* ══════════════════════════════════════
-   INTRO — no emojis, just numbers then words
+   INTRO — clean numbers then words
 ══════════════════════════════════════ */
 const numEl  = document.getElementById('intro-number');
 const wordEl = document.getElementById('intro-word');
 const intro  = document.getElementById('intro');
 
 const steps = [
-  { num:'3',          word:'',          dur:850  },
-  { num:'2',          word:'',          dur:850  },
-  { num:'1',          word:'',          dur:850  },
-  { num:'',           word:'Happy',     dur:900  },
-  { num:'',           word:'Birthday',  dur:900  },
-  { num:'',           word:'To You!',   dur:1100 },
+  { num:'3', word:'',          dur:850  },
+  { num:'2', word:'',          dur:850  },
+  { num:'1', word:'',          dur:850  },
+  { num:'',  word:'Happy',     dur:900  },
+  { num:'',  word:'Birthday',  dur:900  },
+  { num:'',  word:'To You!',   dur:1100 },
 ];
 let si = 0;
 function runStep() {
@@ -277,7 +277,7 @@ function revealCard() {
   }, 3000);
   setTimeout(() => document.getElementById('floralBot').classList.add('show'), 3400);
   document.getElementById('confetti-canvas').classList.add('show');
-  setTimeout(initThreeScene, 300);
+  setTimeout(initHeartParticles, 200);
 }
 
 /* ══════════════════════════════════════
@@ -300,18 +300,18 @@ const ctx2d = cv.getContext('2d');
 function resizeCV() { cv.width = innerWidth; cv.height = innerHeight; }
 resizeCV(); window.addEventListener('resize', resizeCV);
 const COLS = ['#f48fb1','#e91e8c','#fce4ec','#c0392b','#ffd6e7','#fff','#ff80ab','#ffcdd2'];
-const pcs  = Array.from({length:120}, () => ({
-  x: Math.random()*innerWidth, y: Math.random()*innerHeight - innerHeight,
-  w: 5+Math.random()*7, h: 8+Math.random()*8,
-  c: COLS[Math.random()*COLS.length|0],
-  r: Math.random()*360, vx:(Math.random()-.5)*1.3,
+const pcs  = Array.from({length:110}, () => ({
+  x:Math.random()*innerWidth, y:Math.random()*innerHeight-innerHeight,
+  w:5+Math.random()*7, h:8+Math.random()*8,
+  c:COLS[Math.random()*COLS.length|0],
+  r:Math.random()*360, vx:(Math.random()-.5)*1.3,
   vy:1.3+Math.random()*2, vr:(Math.random()-.5)*3, circle:Math.random()<.4
 }));
 (function drawConf(){
   ctx2d.clearRect(0,0,cv.width,cv.height);
   pcs.forEach(p=>{
     ctx2d.save(); ctx2d.translate(p.x,p.y); ctx2d.rotate(p.r*Math.PI/180);
-    ctx2d.fillStyle=p.c; ctx2d.globalAlpha=.88;
+    ctx2d.fillStyle=p.c; ctx2d.globalAlpha=.85;
     if(p.circle){ctx2d.beginPath();ctx2d.arc(0,0,p.w/2,0,Math.PI*2);ctx2d.fill();}
     else ctx2d.fillRect(-p.w/2,-p.h/2,p.w,p.h);
     ctx2d.restore();
@@ -322,260 +322,151 @@ const pcs  = Array.from({length:120}, () => ({
 })();
 
 /* ══════════════════════════════════════
-   THREE.JS 3D ROSES — mobile-sized
+   "I LOVE YOU" HEART PARTICLES
 ══════════════════════════════════════ */
-function initThreeScene() {
-  const canvas   = document.getElementById('three-canvas');
-  const isMobile = window.innerWidth < 600;
-  const W = window.innerWidth;
-  const H = window.innerHeight;
+function initHeartParticles() {
+  const canvas = document.getElementById('heart-canvas');
+  const ctx    = canvas.getContext('2d');
 
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
-  renderer.setSize(W, H);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type    = THREE.PCFSoftShadowMap;
-
-  const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(55, W/H, 0.1, 200);
-
-  // Camera sits lower & closer on mobile
-  if (isMobile) {
-    camera.position.set(0, 1.5, 9);
-  } else {
-    camera.position.set(0, 2, 13);
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
   }
-  camera.lookAt(0, 2.5, 0);
+  resize();
+  window.addEventListener('resize', () => { resize(); buildParticles(); });
 
-  // Lighting
-  scene.add(new THREE.AmbientLight(0xfff0f5, 0.65));
-
-  const dir = new THREE.DirectionalLight(0xffffff, 1.3);
-  dir.position.set(4, 10, 7);
-  dir.castShadow = true;
-  scene.add(dir);
-
-  const fill = new THREE.PointLight(0xff6090, 0.9, 28);
-  fill.position.set(-5, 5, 5);
-  scene.add(fill);
-
-  const rim = new THREE.PointLight(0xffe0f0, 0.5, 18);
-  rim.position.set(0, 9, -4);
-  scene.add(rim);
-
-  // Rose count & sizing
-  const roseCount = isMobile
-    ? Math.min(5, Math.max(3, Math.floor(W / 90)))
-    : Math.min(7, Math.max(4, Math.floor(W / 150)));
-
-  const totalSpan = isMobile ? 7 : 11;
-  const spacing   = totalSpan / (roseCount - 1 || 1);
-  const startX    = -(totalSpan / 2);
-
-  // Scale roses smaller on mobile
-  const baseScale = isMobile ? 0.52 : 0.78;
-
-  const roses = [];
-  for (let i = 0; i < roseCount; i++) {
-    const x     = startX + i * spacing + (Math.random()-.5)*0.5;
-    const delay = i * 0.38 + Math.random()*0.2;
-    const sc    = baseScale + Math.random()*0.22;
-    roses.push(buildRose(scene, x, delay, sc));
-  }
-
-  const clock = new THREE.Clock();
-  function animate() {
-    requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
-    roses.forEach((r,i) => {
-      if (r.grown) {
-        r.group.rotation.z = Math.sin(t*0.55 + i*1.1)*0.03;
-        r.group.rotation.x = Math.sin(t*0.38 + i*0.7)*0.015;
-      }
-    });
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  window.addEventListener('resize', () => {
-    const nW = window.innerWidth, nH = window.innerHeight;
-    camera.aspect = nW/nH;
-    camera.updateProjectionMatrix();
-    renderer.setSize(nW, nH);
-  });
-}
-
-/* ── BUILD ONE ROSE ── */
-function buildRose(scene, xPos, delay, sc) {
-  const roseObj = { group: new THREE.Group(), grown: false };
-  roseObj.group.position.set(xPos, -3.2, 0);
-  roseObj.group.scale.set(sc, 0.001, sc);
-  scene.add(roseObj.group);
-
-  // Pure red hue — tight range
-  const hue = 355 + (Math.random() - 0.5) * 12; // 349–361 → deep red
-
-  /* STEM */
-  const lx1 = (Math.random()-.5)*.35, lx2 = (Math.random()-.5)*.45;
-  const stemCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0,   0,   0),
-    new THREE.Vector3(lx1, 1.2, (Math.random()-.5)*.25),
-    new THREE.Vector3(lx2, 2.5, (Math.random()-.5)*.25),
-    new THREE.Vector3(lx1*.5, 3.8, (Math.random()-.5)*.15),
-    new THREE.Vector3(0,   5.0, 0),
-  ]);
-  const stemGeo  = new THREE.TubeGeometry(stemCurve, 24, 0.06, 8, false);
-  const stemMat  = new THREE.MeshStandardMaterial({ color:0x2d6a2d, roughness:0.82, metalness:0.04 });
-  const stemMesh = new THREE.Mesh(stemGeo, stemMat);
-  stemMesh.castShadow = true;
-  roseObj.group.add(stemMesh);
-
-  /* LEAVES */
-  [{t:0.30,side: 1,ang:0.58},{t:0.52,side:-1,ang:0.50},{t:0.70,side:1,ang:0.40}]
-    .forEach(lp => {
-      const pt  = stemCurve.getPointAt(lp.t);
-      const tan = stemCurve.getTangentAt(lp.t);
-      addLeaf(roseObj.group, pt, tan, lp.side, lp.ang);
-    });
-
-  /* BLOOM */
-  const tipPt    = stemCurve.getPointAt(1.0);
-  const bloomGrp = new THREE.Group();
-  bloomGrp.position.copy(tipPt);
-  roseObj.group.add(bloomGrp);
-  buildBloom(bloomGrp, hue);
-
-  /* GROW */
-  setTimeout(() => {
-    const t0      = performance.now();
-    const growDur = 2400;
-    function grow() {
-      const p = Math.min((performance.now()-t0)/growDur, 1);
-      const e = easeOutBack(p);
-      roseObj.group.scale.set(sc, sc*e, sc);
-      if (p < 1) requestAnimationFrame(grow);
-      else roseObj.grown = true;
-    }
-    requestAnimationFrame(grow);
-  }, delay*1000 + 500);
-
-  return roseObj;
-}
-
-/* ── LEAF ── */
-function addLeaf(parent, position, tangent, side, angle) {
-  const sh = new THREE.Shape();
-  sh.moveTo(0, 0);
-  sh.bezierCurveTo(0.28*side, 0.18, 0.48*side, 0.48, 0.18*side, 0.88);
-  sh.bezierCurveTo(0.38*side, 0.66, 0.28*side, 0.35, 0, 0);
-  const geo = new THREE.ShapeGeometry(sh, 14);
-  const mat = new THREE.MeshStandardMaterial({ color:0x2e7d32, roughness:0.85, side:THREE.DoubleSide });
-  const leaf = new THREE.Mesh(geo, mat);
-  const up   = new THREE.Vector3(0,1,0);
-  const axis = new THREE.Vector3().crossVectors(up, tangent).normalize();
-  const q    = new THREE.Quaternion().setFromAxisAngle(axis, Math.acos(Math.max(-1,Math.min(1,up.dot(tangent)))));
-  leaf.position.copy(position);
-  leaf.applyQuaternion(q);
-  leaf.rotateOnAxis(new THREE.Vector3(0,1,0), side*angle);
-  leaf.rotateOnAxis(new THREE.Vector3(1,0,0), -0.38);
-  leaf.scale.setScalar(0.82 + Math.random()*0.28);
-  leaf.castShadow = true;
-  parent.add(leaf);
-}
-
-/* ── 3D BLOOM — pure red ── */
-function buildBloom(bloomGroup, hue) {
-  const col = (h,s,l) => { const c=new THREE.Color(); c.setHSL(h/360,s,l); return c; };
-
-  // 5 petal layers — outer open, inner cupped
-  const layers = [
-    { count:8, radius:1.05, height:0.58, tilt:1.48, yOff:0.00, lMin:0.28, lMax:0.42, sMin:0.88, sMax:0.95 },
-    { count:7, radius:0.80, height:0.66, tilt:1.12, yOff:0.22, lMin:0.33, lMax:0.48, sMin:0.85, sMax:0.92 },
-    { count:6, radius:0.58, height:0.70, tilt:0.76, yOff:0.40, lMin:0.38, lMax:0.54, sMin:0.82, sMax:0.90 },
-    { count:5, radius:0.37, height:0.62, tilt:0.45, yOff:0.55, lMin:0.44, lMax:0.60, sMin:0.78, sMax:0.88 },
-    { count:4, radius:0.18, height:0.50, tilt:0.20, yOff:0.68, lMin:0.50, lMax:0.66, sMin:0.72, sMax:0.84 },
+  const isMobile  = window.innerWidth < 600;
+  const WORDS     = ['I love you', 'I love you', '♥', 'I love you', '♥'];
+  const FONT_SIZE = isMobile ? 9 : 12;
+  const COLORS    = [
+    '#e91e8c','#c0392b','#ff4081','#ff80ab',
+    '#f06292','#ff1744','#d81b60','#ff6090',
+    '#ff8a80','#ff5252','#ffb3c6','#e53935',
   ];
 
-  layers.forEach((layer, li) => {
-    for (let p = 0; p < layer.count; p++) {
-      const angle = (p/layer.count)*Math.PI*2 + li*0.30;
-      const l     = layer.lMin + Math.random()*(layer.lMax-layer.lMin);
-      const s     = layer.sMin + Math.random()*(layer.sMax-layer.sMin);
-      const cTop  = col(hue, s, l);
-      const cBot  = col(hue, s-0.08, l-0.14);
+  // ── heart parametric points ──
+  function heartPoint(t) {
+    const x =  16 * Math.pow(Math.sin(t), 3);
+    const y = -(13*Math.cos(t) - 5*Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t));
+    return { x, y };
+  }
 
-      const pw = 0.27 + li*0.018;
-      const ph = layer.height;
-      const sh = new THREE.Shape();
-      sh.moveTo(0,0);
-      sh.bezierCurveTo(-pw*.9, ph*.22, -pw,    ph*.72, 0,    ph);
-      sh.bezierCurveTo( pw,    ph*.72,  pw*.9, ph*.22, 0,    0);
-      const geo = new THREE.ShapeGeometry(sh, 12);
+  let particles = [];
 
-      // vertex colour gradient tip→base
-      const pos  = geo.attributes.position;
-      const clrs = new Float32Array(pos.count*3);
-      for (let v=0; v<pos.count; v++) {
-        const t   = Math.max(0, Math.min(1, pos.getY(v)/ph));
-        const c   = cTop.clone().lerp(cBot, t*0.55);
-        clrs[v*3]=c.r; clrs[v*3+1]=c.g; clrs[v*3+2]=c.b;
-      }
-      geo.setAttribute('color', new THREE.BufferAttribute(clrs,3));
+  function buildParticles() {
+    particles = [];
+    const W = canvas.width, H = canvas.height;
+    const isMob = W < 600;
 
-      const mat  = new THREE.MeshStandardMaterial({
-        vertexColors: true, roughness:0.52, metalness:0.06, side:THREE.DoubleSide
+    // heart scale — fits screen nicely
+    const scale  = isMob ? Math.min(W, H) * 0.026 : Math.min(W, H) * 0.030;
+    const cx     = W / 2;
+    const cy     = H / 2 + (isMob ? H * 0.04 : H * 0.05);
+
+    // number of particles
+    const count  = isMob ? 320 : 520;
+
+    for (let i = 0; i < count; i++) {
+      // random t on heart curve
+      const t  = Math.random() * Math.PI * 2;
+      const pt = heartPoint(t);
+      // slight random scatter inside/on heart
+      const jitter = 0.18;
+      const tx = cx + pt.x * scale + (Math.random() - 0.5) * scale * jitter * 2;
+      const ty = cy + pt.y * scale + (Math.random() - 0.5) * scale * jitter * 2;
+
+      // start from random position (scattered) then float to heart
+      const sx = Math.random() * W;
+      const sy = Math.random() * H;
+
+      const word  = WORDS[Math.floor(Math.random() * WORDS.length)];
+      const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      const size  = FONT_SIZE + Math.random() * (isMob ? 3 : 5);
+      const delay = Math.random() * 2.2; // seconds before flying to position
+      const dur   = 1.2 + Math.random() * 1.0; // fly duration
+
+      particles.push({
+        // current pos
+        x: sx, y: sy,
+        // target pos (heart)
+        tx, ty,
+        // start pos
+        sx, sy,
+        word, color, size,
+        delay, dur,
+        // alpha
+        alpha: 0,
+        // animation progress 0→1
+        progress: 0,
+        // wobble phase
+        phase: Math.random() * Math.PI * 2,
+        wobbleAmp: (Math.random() - 0.5) * 1.4,
+        // individual pulsing
+        pulseOffset: Math.random() * Math.PI * 2,
       });
-      const petal = new THREE.Mesh(geo, mat);
-      petal.castShadow = true;
-      petal.position.set(Math.cos(angle)*layer.radius, layer.yOff, Math.sin(angle)*layer.radius);
-      petal.rotation.y = angle + Math.PI;
-      petal.rotation.x = -(Math.PI/2 - layer.tilt);
-      petal.rotation.z += (Math.random()-.5)*0.14;
-      petal.rotation.x += (Math.random()-.5)*0.07;
-      bloomGroup.add(petal);
     }
-  });
-
-  // Sepals
-  for (let s=0; s<5; s++) {
-    const sa  = (s/5)*Math.PI*2;
-    const ssh = new THREE.Shape();
-    ssh.moveTo(0,0);
-    ssh.bezierCurveTo(-0.10,0.24,-0.08,0.54,0,0.64);
-    ssh.bezierCurveTo( 0.08,0.54, 0.10,0.24,0,0);
-    const sgeo = new THREE.ShapeGeometry(ssh,8);
-    const smat = new THREE.MeshStandardMaterial({color:0x2e7d32,side:THREE.DoubleSide,roughness:0.9});
-    const sep  = new THREE.Mesh(sgeo,smat);
-    sep.position.set(Math.cos(sa)*0.54,-0.18,Math.sin(sa)*0.54);
-    sep.rotation.y = sa+Math.PI; sep.rotation.x=-0.88;
-    bloomGroup.add(sep);
   }
 
-  // Centre
-  const cSph = new THREE.Mesh(
-    new THREE.SphereGeometry(0.13,16,16),
-    new THREE.MeshStandardMaterial({ color:col(hue,0.55,0.30), roughness:0.68 })
-  );
-  cSph.position.set(0,0.70,0);
-  bloomGroup.add(cSph);
+  buildParticles();
 
-  // Stamens
-  for (let st=0; st<12; st++) {
-    const sa = (st/12)*Math.PI*2;
-    const sr = 0.07+Math.random()*0.04;
-    const sm = new THREE.Mesh(
-      new THREE.SphereGeometry(0.016,6,6),
-      new THREE.MeshStandardMaterial({color:0xffe082,roughness:0.5})
-    );
-    sm.position.set(Math.cos(sa)*sr, 0.78+Math.random()*0.06, Math.sin(sa)*sr);
-    bloomGroup.add(sm);
+  // ── easing ──
+  function easeOutCubic(t) { return 1 - Math.pow(1-t, 3); }
+  function easeInOutQuad(t) { return t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2; }
+
+  const startTime = performance.now();
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const now     = performance.now();
+    const elapsed = (now - startTime) / 1000; // seconds
+    const globalPulse = Math.sin(elapsed * 1.8) * 0.06 + 1; // heart breathing
+
+    particles.forEach(p => {
+      const localT = elapsed - p.delay;
+      if (localT < 0) return; // not started yet
+
+      // progress of fly-in
+      p.progress = Math.min(localT / p.dur, 1);
+      const ep = easeOutCubic(p.progress);
+
+      // position: lerp from start to target
+      p.x = p.sx + (p.tx - p.sx) * ep;
+      p.y = p.sy + (p.ty - p.sy) * ep;
+
+      // alpha: fade in during fly
+      p.alpha = Math.min(p.progress * 2.5, 1);
+
+      // gentle wobble after arriving
+      if (p.progress >= 1) {
+        p.x = p.tx + Math.sin(elapsed * 0.9 + p.phase) * p.wobbleAmp * globalPulse;
+        p.y = p.ty + Math.cos(elapsed * 0.7 + p.phase) * p.wobbleAmp * 0.6 * globalPulse;
+        // pulse size slightly
+        p.currentSize = p.size * (1 + Math.sin(elapsed * 2 + p.pulseOffset) * 0.06) * globalPulse;
+      } else {
+        p.currentSize = p.size;
+      }
+
+      ctx.save();
+      ctx.globalAlpha = p.alpha * 0.88;
+      ctx.fillStyle   = p.color;
+      ctx.font        = `bold ${p.currentSize || p.size}px 'Nunito', sans-serif`;
+      ctx.textAlign   = 'center';
+      ctx.textBaseline= 'middle';
+
+      // subtle glow on hearts
+      if (p.word === '♥') {
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur  = 6;
+      }
+
+      ctx.fillText(p.word, p.x, p.y);
+      ctx.restore();
+    });
+
+    requestAnimationFrame(draw);
   }
-}
 
-/* easing */
-function easeOutBack(x) {
-  const c1=1.70158, c3=c1+1;
-  return 1 + c3*Math.pow(x-1,3) + c1*Math.pow(x-1,2);
+  draw();
 }
 
 /* ══════════════════════════════════════
@@ -595,7 +486,7 @@ function spawnBalloons(cx, cy) {
     setTimeout(()=>el.remove(), 3500);
   }
 }
-document.addEventListener('click',  e => spawnBalloons(e.clientX, e.clientY));
+document.addEventListener('click',   e => spawnBalloons(e.clientX, e.clientY));
 document.addEventListener('touchend', e => {
   const t = e.changedTouches[0];
   spawnBalloons(t.clientX, t.clientY);
